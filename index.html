@@ -23,10 +23,10 @@
       goldm: [1000n, 1000n]
     }
     function BImath(x, y, o) {
-      return [(a, b) => {a*b/1000n}, (a, b) => {a*1000n/b}][o](x, y)
+      return [(a, b) => {return a*b/1000n}, (a, b) => {return a*1000n/b}][o](x, y)
     }
     function BInum(x) {
-      x=(x/1000).toString()
+      x=(x/1000n).toString()
       if (x.length < 25) {
         let t = ""
         for (let i = 0; i < x.length; i++) {
@@ -58,13 +58,14 @@
       }
     }
     function addgold() {
-      data.gold[0]+=data.gold[1]
+      data.gold[0]+=data.goldm[0]
     }
     function ui() {
       document.getElementById("gold").innerHTML="You have <b>"+BInum(data.gold[0])+"</b> tier-1 gold."
       document.getElementById("add").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
       document.getElementById("res").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(data.goldm[0]+BIsqrt(data.gold[0]*10000n))+" multiplier"][Number(data.gold[0] > 100000n)]
+      requestAnimationFrame(ui)
     }
-    requestAnimationFrame(ui)
+    ui()
   </script>
 </html>
