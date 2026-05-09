@@ -13,18 +13,58 @@
       font-family: "monospace", monospace;
     }
   </style>
-  <h1 id="gold" style="text-align: center;">You have <bold>0</bold> gold.</h1>
-  <div style="text-align: center;"><button style="width: 150px; height: 40px;" onclick="alert(`I don't think it worked`)">+1 gold</button></div>
+  <h1 id="gold" style="text-align: center;">You have <b>0</b> gold.</h1>
+  <div style="text-align: center;"><button id="add" style="background-color: #ffbf00; color: #bf8f00;width: 450px; border: none; border-radius: 0px; height: 40px;" onclick="addgold()">update plz</button></div>
+  <div style="text-align: center;"><button id="res" style="background-color: #ffbf00; color: #bf8f00;width: 450px; border: none; border-radius: 0px; height: 40px;" onclick="if (data.gold[0] >= 100000n) {goldm[0]+=BIsqrt(gold[0]*10000n); gold[0]=0n}">update plz</button></div>
 </body>
   <script>
     var data = {
-      gold: 0
+      gold: [0n,0n],
+      goldm: [1000n, 1000n]
+    }
+    function BImath(x, y, o) {
+      return [(a, b) => {a*b/1000n}, (a, b) => {a*1000n/b}][o](x, y)
+    }
+    function BInum(x) {
+      x=(x/1000).toString()
+      if (x.length < 25) {
+        let t = ""
+        for (let i = 0; i < x.length; i++) {
+          if (i > 0 && (t.length-i)%3 == 0) {
+            t+=" "
+          }
+          t+=x[i]
+        }
+        return t
+      } else {
+        return x[0]+"."+x.substring(1, 7)+"*10^"+(x.length-1)
+      }
+    }
+    function BIsqrt(x) {
+      if (x < 0n) {
+        return 0n
+      }
+      if (x >= 0n && x < 2n) {
+        return x
+      }
+      if (x > 1n) {
+        let g = x/2n+1n
+        let h = (g + x/g)/2n
+        while (h < g) {
+          g = h
+          h = (g + x/g)/2n
+        }
+        return g
+      }
     }
     function addgold() {
-      data.gold++
+      data.gold[0]+=gold[1]
     }
     function ui() {
-      document.getElementById("gold").innerHTML="You have <bold>"+data.gold+"</bold> gold."
+      document.getElementById("gold").innerHTML="You have <b>"+BInum(data.gold[0])+"</b> tier-1 gold."
+      document.getElementById("add").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
+      document.getElementById("res").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(goldm[0]+BIsqrt(gold[0]*10000n))+" multiplier"][Number(data.gold[0] > 100000n)]
     }
+    requestAnimationFrame(ui)
   </script>
 </html>
