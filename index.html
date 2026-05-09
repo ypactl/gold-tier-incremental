@@ -15,7 +15,7 @@
   </style>
   <h1 id="gold" style="text-align: center;">You have <b>0</b> gold.</h1>
   <div style="text-align: center;"><button id="add" style="background-color: #ffbf00; color: #bf8f00;width: 450px; border: none; border-radius: 0px; height: 40px;" onclick="addgold()">update plz</button></div>
-  <div style="text-align: center;"><button id="res" style="background-color: #ffbf00; color: #bf8f00;width: 450px; border: none; border-radius: 0px; height: 40px;" onclick="if (data.gold[0] >= 100000n) {goldm[0]+=BIsqrt(gold[0]*10000n); gold[0]=0n}">update plz</button></div>
+  <div style="text-align: center;"><button id="res" style="background-color: #ffbf00; color: #bf8f00;width: 450px; border: none; border-radius: 0px; height: 40px;" onclick="if (data.gold[0] >= 100000n) {data.goldm[0]+=BIsqrt(data.gold[0]*10000n); data.gold[0]=0n}">update plz</button></div>
 </body>
   <script>
     var data = {
@@ -58,12 +58,12 @@
       }
     }
     function addgold() {
-      data.gold[0]+=gold[1]
+      data.gold[0]+=data.gold[1]
     }
     function ui() {
       document.getElementById("gold").innerHTML="You have <b>"+BInum(data.gold[0])+"</b> tier-1 gold."
       document.getElementById("add").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
-      document.getElementById("res").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(goldm[0]+BIsqrt(gold[0]*10000n))+" multiplier"][Number(data.gold[0] > 100000n)]
+      document.getElementById("res").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(data.goldm[0]+BIsqrt(data.gold[0]*10000n))+" multiplier"][Number(data.gold[0] > 100000n)]
     }
     requestAnimationFrame(ui)
   </script>
