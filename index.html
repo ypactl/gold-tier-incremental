@@ -37,11 +37,11 @@
       border-radius: 0px;
     }
   </style>
-  <div style="display: flex; justify-content: center;"><button class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length)">Next Layer</button></div>
+  <div style="display: flex; justify-content: center;"><button class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
-  <div style="text-align: center;"><button id="res1" class="curr" onclick="if (data.gold[0] >= 100000n) {data.goldm[0]+=BIsqrt(data.gold[0]/10n); data.gold[0]=0n}">update plz</button></div>
-  <div style="text-align: center;"><button id="pres1" class="next" onclick="if (data.gold[0] >= 2500000n) {data.gold[1]+=(BIsqrt(data.gold[0]/312500n+1n)-1n)*500n; data.goldm[0]=1000n; data.gold[0]=0n}">update plz</button></div>
+  <div style="text-align: center;"><button id="res1" class="curr" onclick="if (data.gold[data.curr] >= 100000n) {data.goldm[data.curr]+=BIsqrt(data.gold[data.curr]/10n); data.gold[data.curr]=0n}">update plz</button></div>
+  <div style="text-align: center;"><button id="pres1" class="next" onclick="if (data.gold[data.curr] >= 2500000n) {data.gold[data.curr+1]+=BImath((BIsqrt(data.gold[data.curr]/312500n+1n)-1n)*500n, data.goldm[data.curr+1], 0); data.goldm[data.curr]=1000n; data.gold[data.curr]=0n}">update plz</button></div>
   <br>
   <h2 id="mult1" style="text-align: center;">update plz</h2>
 </body>
@@ -99,10 +99,10 @@
         data.gold[0]+=BImath(data.gold[1], data.goldm[0], 0)/1000n
       }
       document.getElementById("gold1").innerHTML="You have <span style='color: #ffbf00'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
-      document.getElementById("add1").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
-      document.getElementById("res1").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(data.goldm[0]+BIsqrt(data.gold[0]/10n))+" multiplier"][Number(data.gold[0] >= 100000n)]
-      document.getElementById("pres1").textContent=["Prestige for tier-2 gold ("+BInum(2500000n-data.gold[0])+" more tier-1 gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[0]/312500n+1n)-1n)*500n)+" tier-2 gold"][Number(data.gold[0] >= 2500000n)]
-      document.getElementById("mult1").innerHTML="Your tier-2 gold are increasing tier-1 gold by "+BInum(BImath(data.gold[1], data.goldm[0], 0))+"/s."
+      document.getElementById("add1").textContent=["+"+BInum(data.goldm[0])+" tier-1 gold", "I AM NOT PASTING THAT PLEASE"][Number(data.curr > 0)]
+      document.getElementById("res1").textContent=["Reset all tier-"+(data.curr+1)+" gold ("+BInum(100000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to reset)", "Reset all tier-"+(data.curr+1)+" gold for x"+BInum(data.goldm[data.curr]+BIsqrt(data.gold[data.curr]/10n))+" multiplier"][Number(data.gold[data.curr] >= 100000n)]
+      document.getElementById("pres1").textContent=["Prestige for tier-"+(data.curr+2)+" gold ("+BInum(2500000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[data.curr]/312500n+1n)-1n)*500n)+" tier-"+(data.curr+2)+" gold"][Number(data.gold[data.curr] >= 2500000n)]
+      document.getElementById("mult1").innerHTML=("Your tier-"+(data.curr+2)+" gold are increasing tier-"+(data.curr+1)+" gold by "+BInum(BImath(data.gold[data.curr+1], data.goldm[data.curr], 0))+"/s.").repeat(Number(data.gold[data.curr+1] > 0n))
       requestAnimationFrame(ui)
     }
     ui()
