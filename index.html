@@ -37,7 +37,7 @@
       border-radius: 0px;
     }
   </style>
-  <div style="display: flex; justify-content: center;"><button class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
+  <div style="display: flex; justify-content: center;"><button style="text-align: center;" class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button style="text-align: center;" class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
   <div style="text-align: center;"><button id="res1" class="curr" onclick="if (data.gold[data.curr] >= 100000n) {data.goldm[data.curr]+=BIsqrt(data.gold[data.curr]/10n); data.gold[data.curr]=0n}">update plz</button></div>
@@ -111,12 +111,12 @@
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n
         }
       }
-      document.querySelector(".curr").backgroundColor = "#"+data.colb[data.curr%15]
-      document.querySelector(".curr").color = "#"+data.colf[data.curr%15]
-      document.querySelector(".curr").border = "2px solid #"+data.colf[data.curr%15]
-      document.querySelector(".next").backgroundColor = "#"+data.colb[(data.curr+1)%15]
-      document.querySelector(".next").color = "#"+data.colf[(data.curr+1)%15]
-      document.querySelector(".next").border = "2px solid #"+data.colf[(data.curr+1)%15]
+      document.querySelector(".curr").style.backgroundColor = "#"+data.colb[data.curr%15]
+      document.querySelector(".curr").style.color = "#"+data.colf[data.curr%15]
+      document.querySelector(".curr").style.border = "2px solid #"+data.colf[data.curr%15]
+      document.querySelector(".next").style.backgroundColor = "#"+data.colb[(data.curr+1)%15]
+      document.querySelector(".next").style.color = "#"+data.colf[(data.curr+1)%15]
+      document.querySelector(".next").style.border = "2px solid #"+data.colf[(data.curr+1)%15]
       document.getElementById("gold1").innerHTML="You have <span style='color: #"+data.colf[data.curr%15]+"'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
       document.getElementById("add1").textContent=["+"+BInum(data.goldm[0])+" tier-1 gold", "Prestige last layer to get "+BInum((BIsqrt(data.gold[data.curr-1]/312500n+1n)-1n)*500n)+" tier-"+(data.curr+1)+" gold"][Number(data.curr > 0)]
       document.getElementById("res1").textContent=["Reset all tier-"+(data.curr+1)+" gold ("+BInum(100000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to reset)", "Reset all tier-"+(data.curr+1)+" gold for x"+BInum(data.goldm[data.curr]+BIsqrt(data.gold[data.curr]/10n))+" multiplier"][Number(data.gold[data.curr] >= 100000n)]
