@@ -50,8 +50,12 @@
       alert("Message: " + message + "\n" + "Line: " + lineno + "Col: " + colno)
       return false
     }
+  </script>
+  <script>
     var newT = new Date().getTime()
     var oldT = 0
+    const currl = document.querySelectorAll(".curr").style
+    const nextl = document.querySelectorAll(".next").style
     var data = {
       curr: 0,
       gold: [0n, 0n],
@@ -115,12 +119,12 @@
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n
         }
       }
-      document.querySelector(".curr").style.backgroundColor = "#"+data.colb[data.curr%15]
-      document.querySelector(".curr").style.color = "#"+data.colf[data.curr%15]
-      document.querySelector(".curr").style.border = "2px solid #"+data.colf[data.curr%15]
-      document.querySelector(".next").style.backgroundColor = "#"+data.colb[(data.curr+1)%15]
-      document.querySelector(".next").style.color = "#"+data.colf[(data.curr+1)%15]
-      document.querySelector(".next").style.border = "2px solid #"+data.colf[(data.curr+1)%15]
+      currl.backgroundColor = "#"+data.colb[data.curr%15]
+      currl.color = "#"+data.colf[data.curr%15]
+      currl.border = "2px solid #"+data.colf[data.curr%15]
+      nextl.backgroundColor = "#"+data.colb[(data.curr+1)%15]
+      nextl.color = "#"+data.colf[(data.curr+1)%15]
+      nextl.border = "2px solid #"+data.colf[(data.curr+1)%15]
       document.getElementById("gold1").innerHTML="You have <span style='color: #"+data.colf[data.curr%15]+"'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
       document.getElementById("add1").textContent=["+"+BInum(data.goldm[0])+" tier-1 gold", "Prestige last layer to get "+BInum((BIsqrt(data.gold[data.curr-1]/312500n+1n)-1n)*500n)+" tier-"+(data.curr+1)+" gold"][Number(data.curr > 0)]
       document.getElementById("res1").textContent=["Reset all tier-"+(data.curr+1)+" gold ("+BInum(100000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to reset)", "Reset all tier-"+(data.curr+1)+" gold for x"+BInum(data.goldm[data.curr]+BIsqrt(data.gold[data.curr]/10n))+" multiplier"][Number(data.gold[data.curr] >= 100000n)]
