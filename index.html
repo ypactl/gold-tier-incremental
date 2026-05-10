@@ -41,7 +41,7 @@
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
   <div style="text-align: center;"><button id="res1" class="curr" onclick="if (data.gold[data.curr] >= 100000n) {data.goldm[data.curr]+=BIsqrt(data.gold[data.curr]/10n); data.gold[data.curr]=0n}">update plz</button></div>
-  <div style="text-align: center;"><button id="pres1" class="next" onclick="if (data.gold[data.curr] >= 2500000n) {data.gold[data.curr+1]+=BImath((BIsqrt(data.gold[data.curr]/312500n+1n)-1n)*500n, data.goldm[data.curr+1], 0); data.goldm[data.curr]=1000n; data.gold[data.curr]=0n}">update plz</button></div>
+  <div style="text-align: center;"><button id="pres1" class="next" onclick="if (data.gold[data.curr] >= 2500000n) {data.gold[data.curr+1]+=BImath((BIsqrt(data.gold[data.curr]/312500n+1n)-1n)*500n, data.goldm[data.curr+1], 0); data.goldm[data.curr]=1000n; data.gold[data.curr]=0n; if (data.curr == data.gold.length-2) {data.gold.push(0n); data.goldm.push(1000n)}">update plz</button></div>
   <br>
   <h2 id="mult1" style="text-align: center;">update plz</h2>
 </body>
@@ -50,9 +50,11 @@
     var oldT = 0
     var data = {
       curr: 0,
-      gold: [0n,0n,0n,0n,0n],
-      goldm: [1000n, 1000n, 1000n, 1000n, 1000n]
+      gold: [0n, 0n],
+      goldm: [1000n, 1000n]
     }
+    const colb: ["ffbf00", "007fff", "00ffff", "ffbfff", "7fff00", "ff0000", "0000ff", "ff3f00", "7f00ff", "00ff00", "ffbf7f", "009eaa", "bf7f3f", "00bf00", "ff00ff"]
+    const colf: ["bf8f00", "005fbf", "00bfbf", "bf8fbf", "5fbf00", "bf0000", "0000bf", "bf2f00", "5f00bf", "00bf00", "bf8f5f", "007cbf", "8f5f2f", "008f00", "bf00bf"]
     function BImath(x, y, o) {
       return [(a, b) => {return a*b/1000n}, (a, b) => {return a*1000n/b}][o](x, y)
     }
@@ -97,9 +99,6 @@
           data.gold[data.curr]+=BImath((BIsqrt(data.gold[data.curr-1]/312500n+1n)-1n)*500n, data.goldm[data.curr], 0)
           data.goldm[data.curr-1]=1000n
           data.gold[data.curr-1]=0n
-          if (data.curr == data.gold.length-2) {
-            data.gold.push(0n)
-            data.goldm.push(1000n)
           }
         }
       }
@@ -108,9 +107,17 @@
       oldT = newT
       newT = new Date().getTime()
       for (let i = 0; i < Math.min(newT-oldT, 200); i++) {
-        data.gold[0]+=BImath(data.gold[1], data.goldm[0], 0)/1000n
+        for (let j = 0; j < data.gold.length-1; j++) {
+          data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n
+        }
       }
-      document.getElementById("gold1").innerHTML="You have <span style='color: #ffbf00'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
+      document.querySelector(".curr").backgroundColor = "#"+data.colb[data.curr%15]
+      document.querySelector(".curr").color = "#"+data.colf[data.curr%15]
+      document.querySelector(".curr").border = "2px solid #"+data.colf[data.curr%15]
+      document.querySelector(".next").backgroundColor = "#"+data.colb[(data.curr+1)%15]
+      document.querySelector(".next").color = "#"+data.colf[(data.curr+1)%15]
+      document.querySelector(".next").border = "2px solid #"+data.colf[(data.curr+1)%15]
+      document.getElementById("gold1").innerHTML="You have <span style='color: #"+data.colf[data.curr%15]+"'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
       document.getElementById("add1").textContent=["+"+BInum(data.goldm[0])+" tier-1 gold", "Prestige last layer to get "+BInum((BIsqrt(data.gold[data.curr-1]/312500n+1n)-1n)*500n)+" tier-"+(data.curr+1)+" gold"][Number(data.curr > 0)]
       document.getElementById("res1").textContent=["Reset all tier-"+(data.curr+1)+" gold ("+BInum(100000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to reset)", "Reset all tier-"+(data.curr+1)+" gold for x"+BInum(data.goldm[data.curr]+BIsqrt(data.gold[data.curr]/10n))+" multiplier"][Number(data.gold[data.curr] >= 100000n)]
       document.getElementById("pres1").textContent=["Prestige for tier-"+(data.curr+2)+" gold ("+BInum(2500000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[data.curr]/312500n+1n)-1n)*500n)+" tier-"+(data.curr+2)+" gold"][Number(data.gold[data.curr] >= 2500000n)]
