@@ -78,7 +78,7 @@
       document.getElementById("add1").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
       document.getElementById("res1").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(data.goldm[0]+BIsqrt(data.gold[0]/10n))+" multiplier"][Number(data.gold[0] >= 100000n)]
       document.getElementById("pres1").textContent=["Prestige for tier-2 gold ("+BInum(10000000n-data.gold[0])+" more tier-1 gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[0]/125n+1n)-1n)*500n)+" tier-2 gold ("+BInum(10000000n-data.gold[0])+" more tier-1 gold to prestige)"][Number(data.gold[0] >= 10000000n)]
-      document.getElementById("mult1").innerHTML="Your tier-2 coins are increasing tier-1 coins by "+BImath(data.gold[1], data.goldm[0], 0)+"/s."
+      document.getElementById("mult1").innerHTML="Your tier-2 coins are increasing tier-1 coins by "+BInum(BImath(data.gold[1], data.goldm[0], 0))+"/s."
       requestAnimationFrame(ui)
     }
     ui()
