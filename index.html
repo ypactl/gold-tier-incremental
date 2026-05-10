@@ -12,7 +12,7 @@
       color: #ffffff;
       font-family: "monospace", monospace;
     }
-    curr {
+    .curr {
       background-color: #ffbf00;
       color: #bf8f00;
       width: 450px;
@@ -20,7 +20,7 @@
       border: 2px solid #bf8f00;
       border-radius: 0px;
     }
-    next {
+    .next {
       background-color: #007fff;
       color: #005fbf;
       width: 450px;
@@ -28,7 +28,7 @@
       border: 2px solid #005fbf;
       border-radius: 0px;
     }
-    swit {
+    .swit {
       background-color: #bfbfbf;
       color: #7f7f7f;
       width: 60px;
@@ -37,19 +37,19 @@
       border-radius: 0px;
     }
   </style>
-  <div style="display: flex; justify-content: center;"><button class="swit" onclick="">Previous Layer</button><button class="swit" onclick="">Next Layer</button></div>
+  <div style="display: flex; justify-content: center;"><button class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
   <div style="text-align: center;"><button id="res1" class="curr" onclick="if (data.gold[0] >= 100000n) {data.goldm[0]+=BIsqrt(data.gold[0]/10n); data.gold[0]=0n}">update plz</button></div>
   <div style="text-align: center;"><button id="pres1" class="next" onclick="if (data.gold[0] >= 2500000n) {data.gold[1]+=(BIsqrt(data.gold[0]/312500n+1n)-1n)*500n; data.goldm[0]=1000n; data.gold[0]=0n}">update plz</button></div>
   <br>
-  <h1 id="gold2" style="text-align: center;">update plz</h1>
   <h2 id="mult1" style="text-align: center;">update plz</h2>
 </body>
   <script>
     var newT = new Date().getTime()
     var oldT = 0
     var data = {
+      curr: 0,
       gold: [0n,0n,0n,0n,0n],
       goldm: [1000n, 1000n, 1000n, 1000n, 1000n]
     }
@@ -98,8 +98,7 @@
       for (let i = 0; i < Math.min(newT-oldT, 200); i++) {
         data.gold[0]+=BImath(data.gold[1], data.goldm[0], 0)/1000n
       }
-      document.getElementById("gold1").innerHTML="You have <span style='color: #ffbf00'>"+BInum(data.gold[0])+"</span> tier-1 gold."
-      document.getElementById("gold2").innerHTML="You have <span style='color: #007fff'>"+BInum(data.gold[1])+"</span> tier-2 gold."
+      document.getElementById("gold1").innerHTML="You have <span style='color: #ffbf00'>"+BInum(data.gold[data.curr])+"</span> tier-"+(data.curr+1)+" gold."
       document.getElementById("add1").textContent="+"+BInum(data.goldm[0])+" tier-1 gold"
       document.getElementById("res1").textContent=["Reset all tier-1 gold ("+BInum(100000n-data.gold[0])+" more tier-1 gold to reset)", "Reset all tier-1 gold for x"+BInum(data.goldm[0]+BIsqrt(data.gold[0]/10n))+" multiplier"][Number(data.gold[0] >= 100000n)]
       document.getElementById("pres1").textContent=["Prestige for tier-2 gold ("+BInum(2500000n-data.gold[0])+" more tier-1 gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[0]/312500n+1n)-1n)*500n)+" tier-2 gold"][Number(data.gold[0] >= 2500000n)]
