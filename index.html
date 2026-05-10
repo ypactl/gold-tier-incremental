@@ -37,6 +37,9 @@
       border-radius: 0px;
     }
   </style>
+  <p id="timer">update plz</p>
+  <p>There is no autosave function yet! You have to copy the savefile to somewhere else.</p>
+  <button onclick="prompt('Paste the save file text somewhere safe!', btoa(JSON.stringify(data)))">save</button><button onclick="let set = prompt('Paste your save file'); try{if (set) {data=JSON.parse(atob(set))}} catch (e) {}">load</button>
   <div style="display: flex; justify-content: center;"><button style="text-align: center;" class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button style="text-align: center;" class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
@@ -47,7 +50,7 @@
 </body>
   <script>
     window.onerror = function(message, source, lineno, colno, error) {
-      alert("Message: " + message + "\n" + "Line: " + lineno + "Col: " + colno)
+      // alert("Message: " + message + "\n" + "Line: " + lineno + "Col: " + colno)
       return false
     }
   </script>
@@ -55,6 +58,8 @@
     var newT = new Date().getTime()
     var oldT = 0
     var data = {
+      startT: new Date().getTime(),
+      saveT: new Date().getTime(),
       curr: 0,
       gold: [0n, 0n],
       goldm: [1000n, 1000n],
@@ -116,6 +121,7 @@
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n
         }
       }
+      document.getElementById("timer").innerHTML = "<span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/3600000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/3600000)+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/3600000)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/60000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/60000)%60+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/60000)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/1000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/1000)%60+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/1000)%15]+"'>s</span>"
       document.documentElement.style.setProperty("--cbg", "#"+data.colb[data.curr%15])
       document.documentElement.style.setProperty("--cc", "#"+data.colf[data.curr%15])
       document.documentElement.style.setProperty("--cb", "2px solid #"+data.colf[data.curr%15])
