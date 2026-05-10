@@ -39,7 +39,7 @@
   </style>
   <p id="timer">update plz</p>
   <p>There is no autosave function yet! You have to copy the savefile to somewhere else.</p>
-  <button onclick="prompt('Paste the save file text somewhere safe!', btoa(JSON.stringify(data)))">save</button><button onclick="let set = prompt('Paste your save file'); try{if (set) {data=JSON.parse(atob(set))}} catch (e) {}">load</button>
+  <button onclick="prompt('Paste the save file text somewhere safe!', btoa(JSON.stringify(data, (key, value) => typeof value == 'bigint'?(value.toString()+'n'):value))">save</button><button onclick="let set = prompt('Paste your save file'); JSON.parse(data, (key, value) => {if (typeof value == 'string' && value.endsWith('n')) {return BigInt(value.slice(0, -1))} return value})">load</button>
   <div style="display: flex; justify-content: center;"><button style="text-align: center;" class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button style="text-align: center;" class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
