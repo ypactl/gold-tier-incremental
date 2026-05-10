@@ -55,10 +55,10 @@
     var data = {
       curr: 0,
       gold: [0n, 0n],
-      goldm: [1000n, 1000n]
+      goldm: [1000n, 1000n],
+      const colb: ["ffbf00", "007fff", "00ffff", "ffbfff", "7fff00", "ff0000", "0000ff", "ff3f00", "7f00ff", "00ff00", "ffbf7f", "009eaa", "bf7f3f", "00bf00", "ff00ff"],
+      const colf: ["bf8f00", "005fbf", "00bfbf", "bf8fbf", "5fbf00", "bf0000", "0000bf", "bf2f00", "5f00bf", "00bf00", "bf8f5f", "007cbf", "8f5f2f", "008f00", "bf00bf"]
     }
-    const colb: ["ffbf00", "007fff", "00ffff", "ffbfff", "7fff00", "ff0000", "0000ff", "ff3f00", "7f00ff", "00ff00", "ffbf7f", "009eaa", "bf7f3f", "00bf00", "ff00ff"]
-    const colf: ["bf8f00", "005fbf", "00bfbf", "bf8fbf", "5fbf00", "bf0000", "0000bf", "bf2f00", "5f00bf", "00bf00", "bf8f5f", "007cbf", "8f5f2f", "008f00", "bf00bf"]
     function BImath(x, y, o) {
       return [(a, b) => {return a*b/1000n}, (a, b) => {return a*1000n/b}][o](x, y)
     }
