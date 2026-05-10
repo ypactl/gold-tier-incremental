@@ -46,6 +46,10 @@
   <h2 id="mult1" style="text-align: center;">update plz</h2>
 </body>
   <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      alert("Message: " + message + "\n" + "Line: " + lineno + "Col: " + colno)
+      return false
+    }
     var newT = new Date().getTime()
     var oldT = 0
     var data = {
