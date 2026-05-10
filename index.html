@@ -39,7 +39,7 @@
   </style>
   <p id="timer">update plz</p>
   <p>There is no autosave function yet! You have to copy the savefile to somewhere else.</p>
-  <button onclick="prompt('Paste the save file text somewhere safe!', btoa(JSON.stringify(data, (key, value) => typeof value == 'bigint'?(value.toString()+'n'):value))">save</button><button onclick="let set = prompt('Paste your save file'); JSON.parse(data, (key, value) => {if (typeof value == 'string' && value.endsWith('n')) {return BigInt(value.slice(0, -1))} return value})">load</button>
+  <button onclick="prompt('Paste the save file text somewhere safe!', save()">save</button><button onclick="let set = load(prompt('Paste your save file'))">load</button>
   <div style="display: flex; justify-content: center;"><button style="text-align: center;" class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button style="text-align: center;" class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
   <div style="text-align: center;"><button id="add1" class="curr" onclick="addgold()">update plz</button></div>
@@ -58,6 +58,7 @@
     var newT = new Date().getTime()
     var oldT = 0
     var data = {
+      default: new Date().getTime()+"/"+new Date().getTime()+"/0,0/1000,1000",
       startT: new Date().getTime(),
       saveT: new Date().getTime(),
       curr: 0,
@@ -65,6 +66,41 @@
       goldm: [1000n, 1000n],
       colb: ["ffbf00", "007fff", "00ffff", "ffbfff", "7fff00", "ff0000", "0000ff", "ff3f00", "7f00ff", "00ff00", "ffbf7f", "009eaa", "bf7f3f", "00bf00", "ff00ff"],
       colf: ["bf8f00", "005fbf", "00bfbf", "bf8fbf", "5fbf00", "bf0000", "0000bf", "bf2f00", "5f00bf", "00bf00", "bf8f5f", "007cbf", "8f5f2f", "008f00", "bf00bf"]
+    }
+    function save() {
+      data.saveT = new Date().getTime()
+      return btoa(data.startT+"/"+data.saveT+"/"data.gold.join(",")+"/"+data.goldm.join(","))
+    }
+    function load(o) {
+      let t
+      try {
+        t = atob(o) || data.default
+      } catch (e) {
+        t = data.default
+      }
+      t = t.split("/")
+      if (t.length != 4) {
+        t = data.default
+      }
+      t[0] = Number(t[0])
+      t[1] = Number(t[1])
+      t[2] = t[2].split(",")
+      t[3] = t[3].split(",")
+      if (t[2].length != t[3].length) {
+        t[2] = ["0","0"]
+        t[3] = ["1000","1000"]
+      }
+      if(t[2].every(str => /^\d+$/.test(str)) && t[3].every(str => /^\d+$/.test(str))) {
+        t[2] = t[2].map(v => BigInt(v))
+        t[3] = t[3].map(v => BigInt(v))
+      } else {
+        t[2] = [0n, 0n]
+        t[3] = [1000n, 1000n]
+      }
+      data.startT = t[0]
+      data.saveT = t[1]
+      data.gold = t[2]
+      data.goldm = t[3]
     }
     function BImath(x, y, o) {
       return [(a, b) => {return a*b/1000n}, (a, b) => {return a*1000n/b}][o](x, y)
@@ -121,7 +157,7 @@
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n
         }
       }
-      document.getElementById("timer").innerHTML = "<span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/3600000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/3600000)+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/3600000)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/60000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/60000)%60+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/60000)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/1000)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/1000)%60+"</span><span style='color=#"+data.colf[Math.floor((new Date().getTime()-data.startT)/1000)%15]+"'>s</span>"
+      document.getElementById("timer").innerHTML = "<span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/3600000+14)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/3600000)+"</span><span style='color: #"+data.colf[Math.floor((new Date().getTime()-data.startT)/3600000+14)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/60000+14)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/60000)%60+"</span><span style='color: #"+data.colf[Math.floor((new Date().getTime()-data.startT)/60000+14)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor((new Date().getTime()-data.startT)/1000+14)%15]+"'>"+Math.floor((new Date().getTime()-data.startT)/1000)%60+"</span><span style='color: #"+data.colf[Math.floor((new Date().getTime()-data.startT)/1000+14)%15]+"'>s</span>"
       document.documentElement.style.setProperty("--cbg", "#"+data.colb[data.curr%15])
       document.documentElement.style.setProperty("--cc", "#"+data.colf[data.curr%15])
       document.documentElement.style.setProperty("--cb", "2px solid #"+data.colf[data.curr%15])
