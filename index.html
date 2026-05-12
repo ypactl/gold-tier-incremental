@@ -88,7 +88,7 @@
         t.push("0,0")
       }
       if (o.substring(0,3) == "v2 ") {
-        t.push(newDate().getTime())
+        t.push(newDate().getTime().toString())
       }
       if (t.length != 6) {
         t = data.default
@@ -171,7 +171,7 @@
       }
     }
     function timeCol(x) {
-      return "<span style='color: #"+data.colb[Math.floor(x/3600000+14)%15]+"'>"+Math.floor(x/3600000)+"</span><span style='color: #"+data.colf[Math.floor(x/3600000+14)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor(x/60000+14)%15]+"'>"+Math.floor(x/60000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/60000+14)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor(x)%15]+"'>"+Math.floor(x/1000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/1000+14)%15]+"'>s</span>"
+      return "<span style='color: #"+data.colb[Math.floor(x/3600000+14)%15]+"'>"+Math.floor(x/3600000)+"</span><span style='color: #"+data.colf[Math.floor(x/3600000+14)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor(x/60000+14)%15]+"'>"+Math.floor(x/60000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/60000+14)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor(x/1000)%15]+"'>"+Math.floor(x/1000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/1000+14)%15]+"'>s</span>"
     }
     function ui() {
       oldT = newT
@@ -183,7 +183,7 @@
           data.currT++
         }
       }
-      document.getElementById("timer").innerHTML = timeCol(data.currT - data.startT)+(" (+"+timeCol(new Date().getTime()-data.currT)+" left behind)").repeat(Number(new Date().getTime()-data.currT > 0))
+      document.getElementById("timer").innerHTML = timeCol(data.currT - data.startT)+(" (+"+timeCol(new Date().getTime()-data.currT)+" left behind)").repeat(Number(new Date().getTime()-data.currT >= 1000))
       document.documentElement.style.setProperty("--cbg", "#"+data.colb[data.curr%15])
       document.documentElement.style.setProperty("--cc", "#"+data.colf[data.curr%15])
       document.documentElement.style.setProperty("--cb", "2px solid #"+data.colf[data.curr%15])
