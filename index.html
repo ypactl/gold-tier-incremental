@@ -176,7 +176,7 @@
     function ui() {
       oldT = newT
       newT = new Date().getTime()
-      for (let i = 0; i < Math.min(newT-data.currT, 250); i++) {
+      for (let i = 0; i < Math.min(newT-data.currT, 16384/(newT-oldT)); i++) {
         for (let j = 0; j < data.gold.length-1; j++) {
           data.goldl[j]=data.goldl[j]%1000n + BImath(data.gold[j+1], data.goldm[j], 0)%1000n
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n + data.goldl[j]/1000n
