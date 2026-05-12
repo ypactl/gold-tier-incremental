@@ -180,8 +180,8 @@
         for (let j = 0; j < data.gold.length-1; j++) {
           data.goldl[j]=data.goldl[j]%1000n + BImath(data.gold[j+1], data.goldm[j], 0)%1000n
           data.gold[j]+=BImath(data.gold[j+1], data.goldm[j], 0)/1000n + data.goldl[j]/1000n
-          data.currT++
         }
+        data.currT++
       }
       document.getElementById("timer").innerHTML = timeCol(data.currT - data.startT)+(" (+"+timeCol(new Date().getTime()-data.currT)+" left behind)").repeat(Number(new Date().getTime()-data.currT >= 1000))
       document.documentElement.style.setProperty("--cbg", "#"+data.colb[data.curr%15])
