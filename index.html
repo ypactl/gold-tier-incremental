@@ -41,7 +41,7 @@
     }
   </style>
   <p id="timer">update plz</p>
-  <p>There is no autosave function yet! You have to copy the savefile to somewhere else.</p>
+  <p id="loadcode">update plz</p>
   <button onclick="prompt('Paste the save file text somewhere safe!', save())">save</button><button onclick="load(prompt('Paste your save file'))">load</button>
   <div style="display: flex; justify-content: center;"><button style="text-align: center;" class="swit" onclick="data.curr=Math.max(data.curr-1, 0)">Previous Layer</button><button style="text-align: center;" class="swit" onclick="data.curr=Math.min(data.curr+1, data.gold.length-2)">Next Layer</button></div>
   <h1 id="gold1" style="text-align: center;">update plz</h1>
@@ -60,6 +60,8 @@
   <script>
     var newT = new Date().getTime()
     var oldT = 0
+    var loadcode = "......".split("").map(v => Math.floor(Math.random()*256))
+    var tas = false
     var data = {
       default: new Date().getTime()+"/"+new Date().getTime()+"/0,0/1000,1000/0,0/"+new Date().getTime(),
       startT: new Date().getTime(),
@@ -78,6 +80,25 @@
     }
     function load(o) {
       let t
+      if (o.length == 27 && o.startsWith("TAS")) {
+        t = o.substring(3).split("")
+        let n = 1
+        for (let i = 0; i < t.length; i++) {
+          n *= "0123456789abcdef".includes(t)
+        }
+        if (n == 0) {
+          alert("TAS KEY INVALID")
+        } else {
+          t = t.map(v => "0123456789abcdef".indexOf(v))
+          if (t[0]*t[1]+t[2]*t[3] == loadcode[0] && t[4]*t[5]+t[6]*t[7] == loadcode[1] && t[8]*t[9]+t[10]*t[11] == loadcode[2] && t[12]*t[13]+t[14]*t[15] == loadcode[3] && t[16]*t[17]+t[18]*t[19] == loadcode[4] && t[20]*t[21]+t[22]*t[23] == loadcode[5]) {
+            alert("TAS KEY VALID -- Don't expect it to work, okay?")
+            tas = true
+          } else {
+            alert("TAS KEY INVALID")
+            loadcode = "......".split("").map(v => Math.floor(Math.random()*256))
+          }
+        }
+      } else {
       try {
         t = atob(o.substring(3)) || data.default
       } catch (e) {
@@ -122,6 +143,7 @@
       data.goldm = t[3]
       data.goldl = t[4]
       data.currT = t[5]
+      }
     }
     function BImath(x, y, o) {
       return [(a, b) => {return a*b/1000n}, (a, b) => {return a*1000n/b}][o](x, y)
@@ -173,6 +195,7 @@
     function timeCol(x) {
       return "<span style='color: #"+data.colb[Math.floor(x/3600000+14)%15]+"'>"+Math.floor(x/3600000)+"</span><span style='color: #"+data.colf[Math.floor(x/3600000+14)%15]+"'>h </span><span style='color: #"+data.colb[Math.floor(x/60000+14)%15]+"'>"+Math.floor(x/60000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/60000+14)%15]+"'>m </span><span style='color: #"+data.colb[Math.floor(x/1000+14)%15]+"'>"+Math.floor(x/1000)%60+"</span><span style='color: #"+data.colf[Math.floor(x/1000+14)%15]+"'>s</span>"
     }
+    document.getElementById("loadcode").innerHTML = "There is no autosave function yet! You have to copy the savefile to somewhere else. "+loadcode
     function ui() {
       oldT = newT
       newT = new Date().getTime()
