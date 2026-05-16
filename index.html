@@ -207,7 +207,7 @@
       [
         () => {addgold()},
         () => {if (data.gold[data.curr] >= 100000n) {data.goldm[data.curr]+=BIsqrt(data.gold[data.curr]/10n); data.gold[data.curr]=0n}},
-        () => {if (data.gold[data.curr] >= 2500000n+500000n*BigInt(data.curr)) {data.gold[data.curr+1]+=BImath((BIsqrt(data.gold[data.curr]*8n/(2500000n+500000n*BigInt(data.curr))+1n)-1n)*500n, data.goldm[data.curr+1], 0); data.goldm[data.curr]=1000n; data.gold[data.curr]=0n; if (data.curr == data.gold.length-2) {data.gold.push(0n); data.goldm.push(1000n)}}},
+        () => {if (data.gold[data.curr] >= 2500000n+500000n*BigInt(data.curr)) {data.gold[data.curr+1]+=BImath((BIsqrt(data.gold[data.curr]*8n/(2500000n+500000n*BigInt(data.curr))+1n)-1n)*500n, data.goldm[data.curr+1], 0); data.goldm[data.curr]=1000n; data.gold[data.curr]=0n; if (data.curr == data.gold.length-2) {data.gold.push(0n); data.goldm.push(1000n); data.goldl.push(0n)}}},
         () => {data.curr=Math.max(data.curr-1, 0)},
         () => {data.curr=Math.min(data.curr+1, data.gold.length-2)},
         () => {}
@@ -238,7 +238,7 @@
           if (data.curr == n) {
             if (data.gold[n] >= 2500000n+500000n*BigInt(n)) {
               buttonset = 2
-            } else if (data.gold[n] >= 100000n) {
+            } else if (data.gold[n] >= 100000n && data.goldm[n] < 10000n) {
               buttonset = 1
             } else {
               buttonset = 0
