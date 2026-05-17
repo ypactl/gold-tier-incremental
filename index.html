@@ -190,6 +190,12 @@
       }
     }
     function BIlog(n, b) {
+      if (n == 0n) {
+        return 0n
+      }
+      if (b <= 1000n) {
+        return 0n
+      }
       let s = 0
       if (n < 1000n) {
         s = 1
