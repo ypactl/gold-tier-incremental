@@ -50,6 +50,7 @@
   <div style="text-align: center;"><button id="pres1" class="next" onclick="buttonfunc(2)">update plz</button></div>
   <br>
   <h2 id="mult1" style="text-align: center;">update plz</h2>
+  <p id="logmult" style="text-align: center;">update plz</p>
 </body>
   <script>
     window.onerror = function(message, source, lineno, colno, error) {
@@ -188,6 +189,29 @@
         return g
       }
     }
+    function BIlog(n, b) {
+      let s = 0
+      if (n < 1000n) {
+        s = 1
+        n = 1000000n/n
+      }
+      let w = 0
+      let r = ""
+      while (n >= b) {
+        w++
+        n=n*1000n/b
+      }
+      while (r.length < 3) {
+        n = n**10n/1000n**9n
+        let di = 0
+        while (n >= b) {
+          di++
+          n=n*1000n/b
+        }
+        r+=di
+      }
+      return BigInt("-".repeat(s)+w+r)
+    }
     function addgold() {
       if (data.curr == 0) {
         data.gold[0]+=data.goldm[0]
@@ -260,6 +284,7 @@
       document.getElementById("res1").textContent=["Reset all tier-"+(data.curr+1)+" gold ("+BInum(100000n-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to reset)", "Reset all tier-"+(data.curr+1)+" gold for x"+BInum(data.goldm[data.curr]+BIsqrt(data.gold[data.curr]/10n))+" multiplier"][Number(data.gold[data.curr] >= 100000n)]
       document.getElementById("pres1").textContent=["Prestige for tier-"+(data.curr+2)+" gold ("+BInum((2500000n+500000n*BigInt(data.curr))-data.gold[data.curr])+" more tier-"+(data.curr+1)+" gold to prestige)", "Prestige to get "+BInum((BIsqrt(data.gold[data.curr]*8n/(2500000n+500000n*BigInt(data.curr))+1n)-1n)*500n)+" tier-"+(data.curr+2)+" gold"][Number(data.gold[data.curr] >= (2500000n+500000n*BigInt(data.curr)))]
       document.getElementById("mult1").innerHTML=("Your tier-"+(data.curr+2)+" gold are increasing tier-"+(data.curr+1)+" gold by "+BInum(BImath(data.gold[data.curr+1], data.goldm[data.curr], 0))+"/s.").repeat(Number(data.gold[data.curr+1] > 0n))
+      document.getElementById("logmult").innerHTML = "If you layer-reset now, you'll get "+BInum(1000n+250n*BigInt(data.gold.length-2)+BIlog(data.gold[data.gold.length-2], 2500000n+500000n*BigInt(data.gold.length-2))/4n)+" black gold. IS WHAT WOULD HAPPEN IF I ADDED THAT FEATURE."
       requestAnimationFrame(ui)
     }
     ui()
